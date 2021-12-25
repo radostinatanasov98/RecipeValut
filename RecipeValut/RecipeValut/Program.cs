@@ -21,6 +21,7 @@ namespace RecipeValut
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://localhost:42478/");
                 });
     }
 }

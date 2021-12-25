@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeValut.Data;
 using RecipeValut.Data.Models;
+using RecipeValut.Models.Users;
 
 namespace RecipeValut.Controllers
 {
@@ -36,57 +37,19 @@ namespace RecipeValut.Controllers
             return new JsonResult(user);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            this.dbContext.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await this.dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> Register(UserFormModel userFormModel)
         {
-            this.dbContext.Users.Add(user);
-            await this.dbContext.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await this.dbContext.Users.FindAsync(id);
-            if (user == null)
+            var user = new User
             {
-                return NotFound();
-            }
+                Username = userFormModel.Username,
+                Password = userFormModel.Password
+            };
 
-            this.dbContext.Users.Remove(user);
+            await this.dbContext.Users.AddAsync(user);
             await this.dbContext.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool UserExists(int id)
