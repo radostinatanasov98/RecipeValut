@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeValut.Data;
 using RecipeValut.Data.Models;
+using RecipeValut.Models.Recipe;
 
 namespace RecipeValut.Controllers
 {
@@ -37,47 +38,45 @@ namespace RecipeValut.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+        public async Task<IActionResult> PutRecipe(RecipeFormModel recipeFormModel)
         {
-            if (id != recipe.Id)
-            {
-                return BadRequest();
-            }
+            var recipe = await this.dbContext.Recipes.FindAsync(recipeFormModel.Id);
 
-            this.dbContext.Entry(recipe).State = EntityState.Modified;
+            if (recipe == null) return BadRequest();
 
-            try
-            {
-                await this.dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RecipeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            recipe.Name = recipeFormModel.Name;
+            recipe.ImageUrl = recipeFormModel.ImageUrl;
+            recipe.Instructions = recipeFormModel.Instructions;
+            recipe.Description = recipeFormModel.Description;
 
-            return NoContent();
+            await this.dbContext.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<Recipe>> PostRecipe(RecipeFormModel recipeFormModel)
         {
-            this.dbContext.Recipes.Add(recipe);
+            var recipe = new Recipe
+            {
+                Name = recipeFormModel.Name,
+                ImageUrl = recipeFormModel.ImageUrl,
+                Description = recipeFormModel.Description,
+                Instructions = recipeFormModel.Instructions,
+                LikesCount = 0
+            };
+
+            await this.dbContext.Recipes.AddAsync(recipe);
             await this.dbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
             var recipe = await this.dbContext.Recipes.FindAsync(id);
+
             if (recipe == null)
             {
                 return NotFound();

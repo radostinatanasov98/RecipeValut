@@ -6,11 +6,17 @@ body {
   background: whitesmoke;
 }
 
-.container {
+main {
   top: 50px;
   bottom: 50px;
   position: absolute;
   width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('./assets/images/landing-page-image.jpg');
+  background-size: cover;
+  height: inherit;
+  background-color: darkslategray;
+  color: darkcyan;
+  text-align: center;
 }
 
 footer {

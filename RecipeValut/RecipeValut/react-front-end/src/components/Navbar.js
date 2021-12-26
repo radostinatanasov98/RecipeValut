@@ -18,13 +18,19 @@ function Navbar() {
                <li>
                  <Link className="navLink" to="/Register">Register</Link>
                </li>
+               <li>
+                 <Link className="navLink" to="/Create-Recipe">Add Recipe</Link>
+               </li>
+               <li>
+                 <Link className="navLink" to="/Profile">My Profile</Link>
+               </li>
            </ul>
        </nav>
 
-       <form class="navForm">
-           <input class="navInput" placeholder="Search..."/>
+       <div className="navForm">
+           <input className="navInput" placeholder="Search..."/>
            <button>Search</button>
-       </form>
+       </div>
       </div>
 </div>
     );

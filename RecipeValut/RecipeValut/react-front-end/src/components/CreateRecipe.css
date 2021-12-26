@@ -1,4 +1,4 @@
-.loginContainer {
+.createRecipeContainer {
     text-align: center;
     position: fixed;
     top: 0;
@@ -8,50 +8,40 @@
     margin: auto;
     font-size: 30px;
     width: 500px;
-    height: 400px;
+    height: 450px;
     border-style: solid;
     border-color: darkcyan;
     border-radius: 5px;
     color: white;
 }
 
-.loginBtn {
+.createRecipeBtn {
     margin-top: 20px;
     width: 300px;
     height: 50px;
     font-size: 30px;
 }
 
-.loginLabel, .loginInput {
+.createRecipeLabel, .createRecipeInput {
     margin-left: 100px;
     margin-right: 100px;
 }
 
-.loginInput {
+.createRecipeInput {
     width: 300px;
     height: 50px;
     border-radius: 5px;
     font-size: 25px;
 }
 
-.innerLoginDiv {
+.innerCreateRecipeDiv {
     padding-top: 10%;
 }
 
-.loginH1 {
+.createRecipeH1 {
     margin: 0;
-    padding: 3% 0 0 0;
+    padding: 1% 0 0 0;
     font-size: 50px;
     text-align: center;
-    color: white;
-}
-
-.registerPromtDiv {
-    font-size: 20px;
-    margin-top: 10px;
-}
-
-.registerPromtLink {
-    text-decoration: none;
-    color: darkcyan;
+    color: white
 }

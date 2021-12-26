@@ -13,5 +13,7 @@ namespace RecipeValut.Data
         public DbSet<Recipe> Recipes { get; init; }
 
         public DbSet<User> Users { get; init; }
+
+        public DbSet<Type> Types { get; init; }
     }
 }

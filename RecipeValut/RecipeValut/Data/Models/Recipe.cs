@@ -10,8 +10,12 @@ namespace RecipeValut.Data.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        public string ImageUrl { get; set; }
+
         public string Description { get; set; }
 
+        [Required]
         public string Instructions { get; set; }
 
         public int LikesCount { get; set; }
@@ -20,5 +24,10 @@ namespace RecipeValut.Data.Models
         public int UserId { get; init; }
 
         public User User { get; init; }
+
+        [Required]
+        public int TypeId { get; init; }
+
+        public Type Type { get; init; }
     }
 }

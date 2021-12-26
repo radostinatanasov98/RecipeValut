@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeValut.Data;
 
 namespace RecipeValut.Data.Migrations
 {
     [DbContext(typeof(RecipeValutDbContext))]
-    partial class RecipeValutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211226025630_AddedImageUrlToRecipesTable")]
+    partial class AddedImageUrlToRecipesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,35 +45,14 @@ namespace RecipeValut.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
-                });
-
-            modelBuilder.Entity("RecipeValut.Data.Models.Type", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Types");
                 });
 
             modelBuilder.Entity("RecipeValut.Data.Models.User", b =>
@@ -96,26 +77,13 @@ namespace RecipeValut.Data.Migrations
 
             modelBuilder.Entity("RecipeValut.Data.Models.Recipe", b =>
                 {
-                    b.HasOne("RecipeValut.Data.Models.Type", "Type")
-                        .WithMany("Recipes")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RecipeValut.Data.Models.User", "User")
                         .WithMany("Recipes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Type");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RecipeValut.Data.Models.Type", b =>
-                {
-                    b.Navigation("Recipes");
                 });
 
             modelBuilder.Entity("RecipeValut.Data.Models.User", b =>
