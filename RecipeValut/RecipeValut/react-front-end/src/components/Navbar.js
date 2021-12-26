@@ -1,7 +1,35 @@
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+const Navbar = ({id}) => {
+  const guestNav = (
+    <div>
+      <li>
+        <Link className="navLink" to="/Login">Login</Link>
+      </li>
+      <li>
+        <Link className="navLink" to="/Register">Register</Link>
+      </li>
+    </div>
+  );
+
+  const userNav = (
+    <div>
+      <li>
+        <Link className="navLink" to="/Recipes">All Recipes</Link>
+      </li>
+      <li>
+        <Link className="navLink" to="/Create-Recipe">Add Recipe</Link>
+      </li>
+      <li>
+        <Link className="navLink" to="/Profile">My Profile</Link>
+      </li>
+      <li>
+        <Link className="navLink" to="/Logout">Logout</Link>
+      </li>
+    </div>
+  );
+
     return (
       <div className="nav-container">
       <div className="navBar">
@@ -9,21 +37,7 @@ function Navbar() {
 
        <nav>
            <ul>
-               <li>
-                 <Link className="navLink" to="/Recipes">All Recipes</Link>
-               </li>
-               <li>
-                 <Link className="navLink" to="/Login">Login</Link>
-               </li>
-               <li>
-                 <Link className="navLink" to="/Register">Register</Link>
-               </li>
-               <li>
-                 <Link className="navLink" to="/Create-Recipe">Add Recipe</Link>
-               </li>
-               <li>
-                 <Link className="navLink" to="/Profile">My Profile</Link>
-               </li>
+              {id ? userNav : guestNav}
            </ul>
        </nav>
 

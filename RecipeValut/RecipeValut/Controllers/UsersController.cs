@@ -80,7 +80,7 @@ namespace RecipeValut.Controllers
 
             return Ok(new
             {
-                Message = "Success!"
+                Id = user.Id
             });
         }
 

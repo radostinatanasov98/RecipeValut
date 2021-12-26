@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { login } from '../services/authService.js';
+import * as authService from '../services/authService.js';
 import './Login.css';
 
-function Login() {
+const Login = ({onLogin}) => {
     const onFormSubmit = (e) => {
         e.preventDefault();
 
@@ -11,7 +11,10 @@ function Login() {
         let username = formData.get('Username');
         let password = formData.get('Password');
 
-        login(username, password);
+        authService.login(username, password)
+        .then((authData) => {
+            onLogin(authData);
+        });
     }
 
     return (

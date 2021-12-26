@@ -9,7 +9,7 @@ using RecipeValut.Models.Recipe;
 
 namespace RecipeValut.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RecipesController : ControllerBase
     {
@@ -48,6 +48,8 @@ namespace RecipeValut.Controllers
             recipe.ImageUrl = recipeFormModel.ImageUrl;
             recipe.Instructions = recipeFormModel.Instructions;
             recipe.Description = recipeFormModel.Description;
+            recipe.UserId = recipeFormModel.Id;
+            recipe.TypeId = 1;
 
             await this.dbContext.SaveChangesAsync();
 
@@ -55,6 +57,7 @@ namespace RecipeValut.Controllers
         }
 
         [HttpPost]
+        [Route("PostRecipe")]
         public async Task<ActionResult<Recipe>> PostRecipe(RecipeFormModel recipeFormModel)
         {
             var recipe = new Recipe
@@ -63,8 +66,10 @@ namespace RecipeValut.Controllers
                 ImageUrl = recipeFormModel.ImageUrl,
                 Description = recipeFormModel.Description,
                 Instructions = recipeFormModel.Instructions,
-                LikesCount = 0
-            };
+                LikesCount = 0,
+                UserId = recipeFormModel.Id,
+                TypeId = 1
+        };
 
             await this.dbContext.Recipes.AddAsync(recipe);
             await this.dbContext.SaveChangesAsync();

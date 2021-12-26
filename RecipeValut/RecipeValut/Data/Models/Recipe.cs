@@ -21,12 +21,12 @@ namespace RecipeValut.Data.Models
         public int LikesCount { get; set; }
 
         [Required]
-        public int UserId { get; init; }
+        public int UserId { get; set; }
 
         public User User { get; init; }
 
         [Required]
-        public int TypeId { get; init; }
+        public int TypeId { get; set; }
 
         public Type Type { get; init; }
     }
