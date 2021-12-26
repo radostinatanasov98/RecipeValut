@@ -1,18 +1,60 @@
-nav {
-    display: flex;
+.navLink, nav {
+    float: left;
 }
 
-.navbar-right {
-    display: flex;
-    margin-left: 925px;
+nav ul {
+    margin: 0;
+    padding: 0;
 }
 
-.nav-element {
-    margin-left: 5px;
-    margin-right: 10px;
+li {
+    display: inline;
+    list-style: none;
+    margin-left: 15px;
+}
+
+.nav-container {
+    background: #182027;
+    height: 50px;
     color: white;
 }
 
-.home-page-link {
-    font-weight: bold;
+.navLink, .navForm {
+    padding-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.navForm {
+    padding-top: 12px;
+    float: right;
+}
+
+.navInput {
+    border-radius: 5px;
+    font-size: 17px;
+    margin-right: 10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    background: darkcyan;
+    border-radius: 5px;
+    border-style: none;
+    height: 25px;
+    width: 80px;
+    cursor: pointer;
+}
+
+li:hover, .navLink:hover {
+    color: darkcyan;
+    cursor: pointer;
+}
+
+.navLink {
+    text-decoration: none;
+    color: white;
 }

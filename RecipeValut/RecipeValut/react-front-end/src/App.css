@@ -1,3 +1,33 @@
-main {
-  background-color: #182027;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: whitesmoke;
+}
+
+.container {
+  top: 50px;
+  bottom: 50px;
+  position: absolute;
+  width: 100%;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.navLink:hover, .footerNavLink:hover {
+  color: darkcyan;
+  cursor: pointer;
+}
+
+.navLink, .footerNavLink {
+  text-decoration: none;
+  color: white;
 }

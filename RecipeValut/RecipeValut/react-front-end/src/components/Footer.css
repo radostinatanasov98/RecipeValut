@@ -1,0 +1,18 @@
+.footerContainer {
+    text-decoration: none;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background: #182027;
+}
+
+.footerUl {
+    padding-bottom: 25px;
+}
+
+.footerParagraph {
+    color: whitesmoke;
+    align-self: center;
+    padding-bottom: 25px;
+    margin-left: 15px;
+}
