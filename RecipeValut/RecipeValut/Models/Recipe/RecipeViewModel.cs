@@ -13,5 +13,9 @@
         public int LikesCount { get; set; }
 
         public int UserId { get; init; }
+
+        public string Type { get; init; }
+
+        public string ImageUrl { get; set; }
     }
 }

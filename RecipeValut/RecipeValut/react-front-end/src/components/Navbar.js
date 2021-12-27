@@ -2,8 +2,17 @@ import './Navbar.css';
 import { Link } from 'react-router-dom';
 
 const Navbar = ({id}) => {
+  const defaultNav = (
+    <>
+                <li>
+              <Link className="navLink" to="/Recipes">All Recipes</Link>
+            </li>
+            </>
+  );
+
   const guestNav = (
     <div>
+        {defaultNav}
       <li>
         <Link className="navLink" to="/Login">Login</Link>
       </li>
@@ -15,9 +24,7 @@ const Navbar = ({id}) => {
 
   const userNav = (
     <div>
-      <li>
-        <Link className="navLink" to="/Recipes">All Recipes</Link>
-      </li>
+        {defaultNav}
       <li>
         <Link className="navLink" to="/Create-Recipe">Add Recipe</Link>
       </li>

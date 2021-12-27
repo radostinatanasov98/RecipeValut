@@ -8,6 +8,9 @@ import CreateRecipe from './components/CreateRecipe.js';
 import Logout from './components/Logout/Logout.js'
 import './App.css';
 import { useState } from 'react';
+import Recipes from './components/Recipes/Recipes.js';
+import * as recipesService from './services/recipesService.js'
+import Details from './components/Details/Details.js';
 
 function App() {
   const [user, setUser] = useState({
@@ -34,6 +37,8 @@ function App() {
           <Route path="/Logout" element={<Logout onLogout={onLogout}/>}/>
           <Route path="/Register" element={Register()}/>
           <Route path="/Create-Recipe" element={<CreateRecipe id={user.id}/>}/>
+          <Route path="/Recipes" element={<Recipes recipes={recipesService.getAllRecipes()}/>}/>
+          <Route path="/Details/:recipeId" element={<Details id={user.id} />}/>
         </Routes>
       </main>
       <footer>

@@ -32,7 +32,7 @@ namespace RecipeValut.Infrastructure
             {
                 new Type {Name = "Meat"},
                 new Type {Name = "Vegan"},
-                new Type {Name = "Vegeterian"}
+                new Type {Name = "Vegetarian"}
             });
 
             dbContext.SaveChanges();

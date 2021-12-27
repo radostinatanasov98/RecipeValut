@@ -11,5 +11,7 @@
         public string Description { get; set; }
 
         public string Instructions { get; set; }
+
+        public int TypeId { get; set; }
     }
 }

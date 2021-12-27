@@ -21,11 +21,26 @@ namespace RecipeValut.Controllers
         }
 
         [HttpGet]
+        [Route("GetRecipes")]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
-            => new JsonResult(await this.dbContext.Recipes.ToListAsync());
+        {
+            var query = this.dbContext.Recipes.Select(r => new RecipeViewModel
+            {
+                Name = r.Name,
+                Description = r.Description,
+                Instructions = r.Instructions,
+                Type = this.dbContext.Types.First(t => t.Id == r.TypeId).Name,
+                LikesCount = r.LikesCount,
+                Id = r.Id,
+                UserId = r.UserId,
+                ImageUrl = r.ImageUrl
+            });
+
+            return new JsonResult(query);
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipe(int id)
+        public async Task<ActionResult<Recipe>> GetRecipeById(int id)
         {
             var recipe = await this.dbContext.Recipes.FindAsync(id);
 
@@ -49,7 +64,7 @@ namespace RecipeValut.Controllers
             recipe.Instructions = recipeFormModel.Instructions;
             recipe.Description = recipeFormModel.Description;
             recipe.UserId = recipeFormModel.Id;
-            recipe.TypeId = 1;
+            recipe.TypeId = recipeFormModel.TypeId;
 
             await this.dbContext.SaveChangesAsync();
 
@@ -68,7 +83,7 @@ namespace RecipeValut.Controllers
                 Instructions = recipeFormModel.Instructions,
                 LikesCount = 0,
                 UserId = recipeFormModel.Id,
-                TypeId = 1
+                TypeId = recipeFormModel.TypeId
         };
 
             await this.dbContext.Recipes.AddAsync(recipe);
