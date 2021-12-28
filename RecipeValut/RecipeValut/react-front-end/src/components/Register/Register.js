@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { register } from '../services/authService.js';
+import { register } from '../../services/authService.js';
 import './Register.css';
 
 function Register() {

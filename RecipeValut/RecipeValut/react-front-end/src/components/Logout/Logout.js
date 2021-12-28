@@ -1,10 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react/cjs/react.development';
+import { useUserContext } from '../../contexts/UserContext.js';
 
-const Logout = ({onLogout}) => {
+const Logout = () => {
     const navigate = useNavigate();
+    const { logout } = useUserContext();
 
-    onLogout();
-    navigate('/');
+    useEffect(() => {
+        logout();
+        navigate('/');
+    }, [])
 
     return null;
 };

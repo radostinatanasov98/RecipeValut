@@ -1,10 +1,13 @@
 import './CreateRecipe.css';
-import * as recipeService from '../services/recipesService.js';
+import * as recipeService from '../../services/recipesService.js';
+import { useUserContext } from '../../contexts/UserContext.js';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-const CreateRecipe = ({id}) => {
+const CreateRecipe = () => {
     const navigate = useNavigate();
+    const user = useUserContext();
+    const id = user.id;
 
     useEffect(() => {
         if (id == '') {
@@ -24,7 +27,13 @@ const CreateRecipe = ({id}) => {
         let Instructions = formData.get('Instructions');
         let TypeId = formData.get('Type');
 
-        recipeService.createRecipe(Id, Name, ImageUrl, Description, Instructions, TypeId);
+        if (recipeService.validateRecipe(Id, Name, ImageUrl, Description, Instructions, TypeId)) {
+            recipeService.createRecipe(Id, Name, ImageUrl, Description, Instructions, TypeId);
+
+            navigate('/Recipes');
+        }
+
+        return null;
     }
 
     return (

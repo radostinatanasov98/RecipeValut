@@ -1,0 +1,13 @@
+main {
+    text-align: left;
+}
+
+ul {
+    text-align: center;
+    display: inline;
+    justify-content: left;
+}
+
+.recipesDiv {
+    display: flex;
+}

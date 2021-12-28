@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RecipeValut.Data;
 using RecipeValut.Data.Models;
 using RecipeValut.Models.Recipe;
@@ -40,7 +39,8 @@ namespace RecipeValut.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipeById(int id)
+        [Route("GetRecipeById/{id}")]
+        public async Task<ActionResult<Recipe>> GetRecipeById(int id, int? userId)
         {
             var recipe = await this.dbContext.Recipes.FindAsync(id);
 
@@ -49,10 +49,23 @@ namespace RecipeValut.Controllers
                 return NotFound();
             }
 
-            return new JsonResult(recipe);
+            var result = new RecipeViewModel
+            {
+                Description = recipe.Description,
+                Id = recipe.Id,
+                Instructions = recipe.Instructions,
+                ImageUrl = recipe.ImageUrl,
+                LikesCount = recipe.LikesCount,
+                Name = recipe.Name,
+                Type = this.dbContext.Types.First(t => t.Id == recipe.TypeId).Name,
+                UserId = recipe.UserId,
+            };
+
+            return new JsonResult(result);
         }
 
         [HttpPut("{id}")]
+        [Route("Edit/{id}")]
         public async Task<IActionResult> PutRecipe(RecipeFormModel recipeFormModel)
         {
             var recipe = await this.dbContext.Recipes.FindAsync(recipeFormModel.Id);
@@ -63,7 +76,6 @@ namespace RecipeValut.Controllers
             recipe.ImageUrl = recipeFormModel.ImageUrl;
             recipe.Instructions = recipeFormModel.Instructions;
             recipe.Description = recipeFormModel.Description;
-            recipe.UserId = recipeFormModel.Id;
             recipe.TypeId = recipeFormModel.TypeId;
 
             await this.dbContext.SaveChangesAsync();
@@ -93,6 +105,7 @@ namespace RecipeValut.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
             var recipe = await this.dbContext.Recipes.FindAsync(id);
@@ -106,6 +119,94 @@ namespace RecipeValut.Controllers
             await this.dbContext.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("{userId}&{recipeId}")]
+        public async Task<IActionResult> GetRelation(int? userId, int recipeId)
+        {
+            if (userId == null) return new JsonResult(false);
+
+            var result = await this.dbContext.UserRecipe.FindAsync(userId, recipeId) == null ? false : true;
+
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        [Route("Like/{userId}&{recipeId}")]
+        public async Task<IActionResult> LikeRecipe(int userId, int recipeId)
+        {
+            var relation = await this.dbContext.UserRecipe.FindAsync(userId, recipeId);
+
+            if (relation != null) return BadRequest();
+
+            this.dbContext.UserRecipe.Add(new UserRecipe 
+            {
+                UserId = userId,
+                RecipeId = recipeId
+            });
+
+            var recipe = this.dbContext.Recipes.First(r => r.Id == recipeId);
+            recipe.LikesCount += 1;
+            this.dbContext.SaveChanges();
+
+            var result = new
+            {
+                LikesCount = recipe.LikesCount,
+                HasRelation = false
+            };
+
+            return new JsonResult(result);
+        }
+
+        [HttpDelete("{userId}&{recipeId}")]
+        [Route("Dislike/{userId}&{recipeId}")]
+        public async Task<IActionResult> DislikeRecipe(int userId, int recipeId)
+        {
+            var relation = await this.dbContext.UserRecipe.FindAsync(userId, recipeId);
+
+            if (relation == null) return BadRequest();
+
+            this.dbContext.UserRecipe.Remove(relation);
+
+            var recipe = this.dbContext.Recipes.First(r => r.Id == recipeId);
+            recipe.LikesCount -= 1;
+            this.dbContext.SaveChanges();
+
+            var result = new
+            {
+                LikesCount = recipe.LikesCount,
+                HasRelation = false
+            };
+
+            return new JsonResult(result);
+        }
+
+        [HttpGet("{userId}")]
+        [Route("GetLikedRecipes/{userId}")]
+        public async Task<IActionResult> GetLikedRecipes(int userId)
+        {
+            var recipeIds = this.dbContext.UserRecipe.Where(ur => ur.UserId == userId).Select(ur => ur.RecipeId);
+
+            var result = new List<RecipeViewModel>();
+
+            foreach (var id in recipeIds)
+            {
+                var recipe = this.dbContext.Recipes.First(r => r.Id == id);
+                var output = new RecipeViewModel
+                {
+                    Name = recipe.Name,
+                    Description = recipe.Description,
+                    Instructions = recipe.Instructions,
+                    Type = this.dbContext.Types.First(t => t.Id == recipe.TypeId).Name,
+                    LikesCount = recipe.LikesCount,
+                    Id = recipe.Id,
+                    UserId = recipe.UserId,
+                    ImageUrl = recipe.ImageUrl
+                };
+                result.Add(output);
+            }
+
+            return new JsonResult(result);
         }
 
         private bool RecipeExists(int id)

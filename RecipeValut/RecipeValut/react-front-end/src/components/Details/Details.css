@@ -1,0 +1,40 @@
+.detailsDiv {
+    display: flex;
+}
+
+.detailsElement {
+    display: inline-block;
+}
+
+.detailsImg {
+    width: 600px;
+    height: 500px;
+    margin-top: 30px;
+    margin-left: 30px;
+    border: darkcyan 5px solid;
+}
+
+.detailsInfo {
+    width: 800px;
+    margin-left: 30px;
+}
+
+.detailsBtn {
+    font-size: 32px;
+    width: 150px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.ownerBtns {
+    display: block;
+    margin-top: 15px;
+}
+
+.deleteBtn {
+    background: darkred;
+}
+
+.detialsH {
+    padding-top: 2%;
+}

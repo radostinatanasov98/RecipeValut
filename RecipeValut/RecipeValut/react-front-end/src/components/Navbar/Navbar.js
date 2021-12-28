@@ -1,7 +1,10 @@
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import { useUserContext } from '../../contexts/UserContext';
 
-const Navbar = ({id}) => {
+const Navbar = () => {
+  const user = useUserContext();
+
   const defaultNav = (
     <>
                 <li>
@@ -29,7 +32,7 @@ const Navbar = ({id}) => {
         <Link className="navLink" to="/Create-Recipe">Add Recipe</Link>
       </li>
       <li>
-        <Link className="navLink" to="/Profile">My Profile</Link>
+        <Link className="navLink" to="/Liked-Recipes">Liked Recipes</Link>
       </li>
       <li>
         <Link className="navLink" to="/Logout">Logout</Link>
@@ -44,14 +47,9 @@ const Navbar = ({id}) => {
 
        <nav>
            <ul>
-              {id ? userNav : guestNav}
+              {user.id == '' ? guestNav : userNav}
            </ul>
        </nav>
-
-       <div className="navForm">
-           <input className="navInput" placeholder="Search..."/>
-           <button>Search</button>
-       </div>
       </div>
 </div>
     );

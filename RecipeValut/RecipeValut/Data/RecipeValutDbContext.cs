@@ -15,5 +15,13 @@ namespace RecipeValut.Data
         public DbSet<User> Users { get; init; }
 
         public DbSet<Type> Types { get; init; }
+
+        public DbSet<UserRecipe> UserRecipe { get; init; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRecipe>()
+                .HasKey(x => new { x.UserId, x.RecipeId });
+        }
     }
 }

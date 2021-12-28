@@ -17,5 +17,7 @@
         public string Type { get; init; }
 
         public string ImageUrl { get; set; }
+
+        public bool IsLiked { get; set; }
     }
 }
